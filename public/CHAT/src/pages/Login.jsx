@@ -509,12 +509,12 @@ function Register() {
   const [values, setValues] = useState({
     username: "", password: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event) {
-    // console.log("NMKRSPVLIDATA")
     event.preventDefault();
     if (handleValidation()) {
-      console.log("NMKRSPVLIDATA")
+      setIsLoading(true);
       const { username, password } = values;
       const user = { username, password };
       try {
@@ -533,6 +533,8 @@ function Register() {
       } catch (error) {
         console.error("Login error:", error);
         toast.error("Check the credentials");
+      } finally {
+        setIsLoading(false);
       }
     }
   }
@@ -543,15 +545,10 @@ function Register() {
   }
 
   function handleValidation() {
-    console.log("NMKRSPVLIDATA")
     if (values.username.trim() === "") {
       toast.error("Enter The Username");
       return false;
     }
-    // if (!values.email.includes("@")) {
-    //   toast.error("Invalid email address");
-    //   return false;
-    // }
     if (values.password.length < 6) {
       toast.error("Password must be at least 6 characters long");
       return false;
@@ -572,119 +569,163 @@ function Register() {
               value={values.username}
               onChange={handleChange}
               className="input-field"
+              disabled={isLoading}
             /></span>
-
-
-
-
-          {/* <span className="input-span">
-            <label htmlFor="email" className="label">Email</label>
-            <input
-              placeholder="email"
-              name="email"
-              type="email"
-              value={values.email}
-              onChange={handleChange}
-              className="input-field"
-            /></span> */}
-
 
           <span className="input-span">
             <label htmlFor="password" className="label">Password</label>
-            <input type="password"
+            <input 
+              type="password"
               placeholder="Password"
               name="password"
               value={values.password}
               onChange={handleChange}
               className="input-field"
+              disabled={isLoading}
             /></span>
 
-          <input className="submit" type="submit" value="Log in" />
+          <button 
+            className={`submit ${isLoading ? 'loading' : ''}`} 
+            type="submit" 
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="loading-spinner">
+                <div className="spinner"></div>
+                <span>Logging in...</span>
+              </div>
+            ) : (
+              'Log in'
+            )}
+          </button>
           <span className="span">Don't have an account? <Link to="/register">Sign up</Link></span>
         </form>
-
       </Form>
       <ToastContainer position="top-right" autoClose={3000} />
-    </>)
+    </>
+  );
 }
+
 const Form = styled.div`
-postition:relative;
-translate:40rem;
-.form {
-  --bg-light: #efefef;
-  --bg-dark: #707070;
-  --clr: #58bc82;
-  --clr-alpha: #9c9c9c60;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 300px;
-}
+  position: relative;
+  translate: 40rem;
 
-.form .input-span {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .form {
+    --bg-light: #efefef;
+    --bg-dark: #707070;
+    --clr: #58bc82;
+    --clr-alpha: #9c9c9c60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
 
-.form input[type="text"],
-.form input[type="password"] {
-  border-radius: 0.5rem;
-  padding: 1rem 0.75rem;
-  width: 100%;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--clr-alpha);
-  outline: 2px solid var(--bg-dark);
-}
+  .form .input-span {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-.form input[type="email"]:focus,
-.form input[type="password"]:focus {
-  outline: 2px solid var(--clr);
-}
+  .form input[type="text"],
+  .form input[type="password"] {
+    border-radius: 0.5rem;
+    padding: 1rem 0.75rem;
+    width: 100%;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--clr-alpha);
+    outline: 2px solid var(--bg-dark);
+    transition: all 0.3s ease;
+  }
 
-.label {
-  align-self: flex-start;
-  color: var(--clr);
-  font-weight: 600;
-}
+  .form input[type="text"]:focus,
+  .form input[type="password"]:focus {
+    outline: 2px solid var(--clr);
+  }
 
-.form .submit {
-  padding: 1rem 0.75rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 3rem;
-  background-color: var(--bg-dark);
-  color: var(--bg-light);
-  border: none;
-  cursor: pointer;
-  transition: all 300ms;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
+  .form input[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
-.form .submit:hover {
-  background-color: var(--clr);
-  color: var(--bg-dark);
-}
+  .label {
+    align-self: flex-start;
+    color: var(--clr);
+    font-weight: 600;
+  }
 
-.span {
-  text-decoration: none;
-  color: var(--bg-dark);
-}
+  .form .submit {
+    padding: 1rem 0.75rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 3rem;
+    background-color: var(--bg-dark);
+    color: var(--bg-light);
+    border: none;
+    cursor: pointer;
+    transition: all 300ms;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
 
-.span a {
-  color: var(--clr);
-}
+  .form .submit:not(:disabled):hover {
+    background-color: var(--clr);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+  }
 
+  .form .submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .loading-spinner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid transparent;
+    border-top-color: var(--bg-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .span {
+    text-decoration: none;
+    color: var(--bg-dark);
+  }
+
+  .span a {
+    color: var(--clr);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .span a:hover {
+    text-decoration: underline;
+  }
 `
+
 export default Register;
 
 
