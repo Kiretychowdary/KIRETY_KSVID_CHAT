@@ -13,7 +13,7 @@ import axios from "axios";
 //JAISITARAMA
 //RADHAKRISHNALOVEPERMANTLUUUUU
 
-import { regiterRoute } from "../utils/APIRoutes";
+import { registerRoute } from "../utils/APIRoutes";
 import Logo from "../assets/react.svg";
 
 // ---- Professional Color Scheme ----
@@ -38,7 +38,7 @@ function Register() {
       try {
         const { username, email, password } = values;
         const user = { username, email, password }
-        const { data } = await axios.post(regiterRoute, user)
+        const { data } = await axios.post(registerRoute, user)
         console.log(data);
         if (data) {
           // console.log("RADHAKRISHNALOVEPERMANLTUUUUUU");

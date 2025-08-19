@@ -100,16 +100,16 @@ const Container = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: #131324;
+  background-color: white;
   overflow: hidden;
 
   .chat-header {
     padding: 1rem;
-    background: #2d2d44;
-    color: white;
+    background: #f5f5f5;
+    color: #333;
     font-size: 1.2rem;
     font-weight: 600;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #e0e0e0;
     text-align: center;
   }
 
@@ -129,7 +129,7 @@ const Container = styled.div`
         padding: 0.7rem 1rem;
         border-radius: 1rem;
         font-size: 1rem;
-        color: white;
+        color: #333;
         word-wrap: break-word;
       }
 
@@ -137,7 +137,8 @@ const Container = styled.div`
         justify-content: flex-end;
 
         .content {
-          background-color: #4e0eff;
+          background-color: #2196f3;
+          color: white;
         }
       }
 
@@ -145,7 +146,7 @@ const Container = styled.div`
         justify-content: flex-start;
 
         .content {
-          background-color: #2e2e2e;
+          background-color: #f0f0f0;
         }
       }
     }
@@ -153,8 +154,8 @@ const Container = styled.div`
 
   .chat-input {
     padding: 1rem;
-    border-top: 1px solid #444;
-    background-color: #1c1c2b;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
   }
 
   @media (max-width: 768px) {

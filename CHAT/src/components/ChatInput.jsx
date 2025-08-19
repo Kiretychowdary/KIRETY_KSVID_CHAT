@@ -78,21 +78,18 @@ export default function ChatInput({ handleSendMsg }) {
 }
 const Container = styled.div`
   width: 100%;
-  background: rgba(8, 4, 32, 0.95);
+  background: white;
   padding: 0;
-  border-radius: 0 0 1.2rem 1.2rem;
-  box-shadow: 0 -2px 16px 0 rgba(31, 38, 135, 0.13);
-  animation: fadeInInput 1.1s cubic-bezier(.39,.575,.565,1) both;
 
   .input-container {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(255,255,255,0.13);
-    border-radius: 0 0 1.2rem 1.2rem;
+    background: white;
     padding: 0.4rem 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
     position: relative;
   }
 
@@ -102,12 +99,11 @@ const Container = styled.div`
     align-items: center;
     svg {
       font-size: 1.7rem;
-      color: #ffe066;
+      color: #ffa726;
       cursor: pointer;
       transition: transform 0.2s;
       &:hover {
-        transform: scale(1.2) rotate(-12deg);
-        filter: drop-shadow(0 0 8px #ffe06688);
+        transform: scale(1.1);
       }
     }
   }
@@ -117,28 +113,30 @@ const Container = styled.div`
     bottom: 60px;
     left: 0;
     z-index: 10;
-    box-shadow: 0 4px 24px #00000033;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
     border-radius: 1rem;
-    animation: popInInput 0.5s cubic-bezier(.39,.575,.565,1) both;
   }
 
   input {
     flex: 1;
     background: transparent;
     border: none;
-    color: white;
+    color: #333;
     font-size: 1.15rem;
     padding-left: 1rem;
     &::selection {
-      background-color: #9186f3;
+      background-color: #e3f2fd;
     }
     &:focus {
       outline: none;
     }
+    &::placeholder {
+      color: #999;
+    }
   }
 
   button {
-    background: linear-gradient(135deg, #9a86f3 60%, #58bc82 100%);
+    background: #2196f3;
     border: none;
     padding: 0.5rem 0.9rem;
     border-radius: 50%;
@@ -147,14 +145,13 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     transition: background 0.2s, transform 0.2s;
-    box-shadow: 0 2px 8px #9a86f344;
     svg {
       font-size: 1.3rem;
       color: white;
     }
     &:hover {
-      background: linear-gradient(135deg, #58bc82 60%, #9a86f3 100%);
-      transform: scale(1.08);
+      background: #1976d2;
+      transform: scale(1.05);
     }
   }
 
@@ -205,83 +202,3 @@ const Container = styled.div`
     }
   }
 `;
-// const Container = styled.div`
-//   display: grid;
-//   grid-template-columns: 5% 95%;
-//   align-items: center;
-//   background: #080420;
-//   // padding: 0 2rem;
-//   padding-bottom: 0.3rem;
-// //  position: absolute;
-//  width:840px;
-//     top: 610px !important;
-//     .EmojiPickerReact{
-//     height: 450px;
-//     width: 350px;
-//     top: -490px;
-//     }
-//   .button-container {
-//     display: flex;
-//     align-items: center;
-//     color: white;
-//     gap:1rem;
-//     .emoji {
-//       position: relative;
-//       svg {
-//         font-size: 1.5rem;
-//         color: yellow;
-//         cursor: pointer;
-//       }
-       
-//     }
-//   }
-
-//   .input-container {
-//   width: 100%;
-//     display: flex;
-//     align-items: center;
-//     gap: 2rem;
-//     background-color: #ffffff34;
-//     border-radius: 2rem;
-//     padding: 0.3rem 1rem;
-
-//     input {
-//     width: 90%;
-//       flex: 1;
-//       background: transparent;
-//       border: none;
-//       color: white;
-//       font-size: 1rem;
-//       border:none;
-//       padding-left:1rem;
-//       font-size:1.2rem
-//       &::selection{
-//       background-color:#9186f3;
-//       }
-//       &:focus{
-//       outline:none;
-//       }
-//       outline: none;
-//     }
-
-//     button {
-//       background: #9a86f3;
-//       border: none;
-//       padding:-2% .3rem 2rem;
-      
-//       border-radius: 20%;
-//       cursor: pointer;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       svg {
-//         font-size: 1.2rem;
-//         color: white;
-//       }
-//     }
-//   }
-//     .emoji-picker-react{
-//     position:absolute;
-//     top: -350px;
-//     }
-// `;

@@ -1,4 +1,8 @@
-// radhakrishnalovepermanentshivaparavathivinyakasitaramalovepermanenltuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+/**
+ * Chat Page Component
+ * KSVID Chat Application - Main chat interface
+ * Author: Kirety
+ */
 
 import React, { useEffect, useState, useRef } from 'react';
 import styled from "styled-components";
@@ -11,120 +15,116 @@ import robot from "../assets/robot.gif";
 import { io } from 'socket.io-client';
 
 const Container = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
-  background: linear-gradient(120deg, #f8fafc 0%, #e2e8f0 100%);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-  .chat-shell {
-    width: 96vw;
-    max-width: 1200px;
-    height: 88vh;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px 0 #1e293b22;
+  .chat-container {
     display: flex;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-    transition: box-shadow 0.2s;
-  }
-
-  .contacts-panel {
-    flex: 1;
-    background: linear-gradient(135deg, #f1f5f9 60%, #e0e7ef 100%);
-    border-right: 1px solid #e5e7eb;
-    padding: 1.5rem 0.5rem 1.5rem 0.5rem;
-    min-width: 240px;
-    max-width: 320px;
-    overflow-y: auto;
-    transition: background 0.2s;
-  }
-  .contacts-panel::-webkit-scrollbar {
-    width: 7px;
-    background: #e5e7eb;
-  }
-  .contacts-panel::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 8px;
-  }
-
-  .chat-box {
-    flex: 2;
-    background: linear-gradient(120deg, #f8fafc 60%, #e2e8f0 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    transition: background 0.2s;
-  }
-
-  img {
-    max-width: 260px;
-    opacity: 0.9;
-    filter: drop-shadow(0 4px 16px #64748b33);
-    animation: fadeIn 0.7s;
-  }
-
-  .back-btn {
-    position: absolute;
-    top: 1.2rem;
-    left: 1.2rem;
-    background: #2563eb;
-    border: none;
-    color: #fff;
-    font-size: 1.7rem;
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #2563eb33;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .back-btn:hover {
-    background: #1e40af;
-  }
-  .back-btn:active {
-    transform: scale(0.95);
-  }
-  .hide-on-chat {
-    display: none;
-  }
-  .show-chat {
-    flex: 1 1 100%;
     width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95);}
-    to { opacity: 1; transform: scale(1);}
+  .contacts-section {
+    width: 320px;
+    min-width: 280px;
+    background: #ffffff;
+    border-right: 1px solid #e1e5e9;
+    display: flex;
+    flex-direction: column;
   }
 
-  @media (max-width: 900px) {
-    .chat-shell {
-      flex-direction: column;
-      height: 98vh;
-      width: 99vw;
-      border-radius: 0;
+  .chat-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fafbfc;
+    position: relative;
+  }
+
+  .welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6c757d;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .welcome-screen img {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+
+  .welcome-screen h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+
+  .welcome-screen p {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+  }
+
+  .back-button {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 100;
+    transition: background 0.2s ease;
+  }
+
+  .back-button:hover {
+    background: #0056b3;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .chat-container {
+      box-shadow: none;
     }
-    .contacts-panel,
-    .chat-box {
+
+    .contacts-section {
       width: 100%;
-      height: 100%;
-      min-width: 0;
-      max-width: none;
+      position: ${props => props.showChat ? 'absolute' : 'static'};
+      left: ${props => props.showChat ? '-100%' : '0'};
+      transition: left 0.3s ease;
+      z-index: 10;
     }
-    .hide-on-chat {
-      display: none;
+
+    .chat-section {
+      width: 100%;
+      position: ${props => props.showChat ? 'static' : 'absolute'};
+      right: ${props => props.showChat ? '0' : '-100%'};
+      transition: right 0.3s ease;
     }
-    .show-chat {
-      display: flex;
+
+    .back-button {
+      display: ${props => props.showChat ? 'flex' : 'none'};
+      align-items: center;
+      justify-content: center;
     }
   }
 `;
@@ -140,6 +140,10 @@ export default function Chat() {
 
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
+  };
+
+  const handleBackToContacts = () => {
+    setCurrentChat(undefined);
   };
 
   useEffect(() => {
@@ -165,42 +169,76 @@ export default function Chat() {
 
   useEffect(() => {
     const fetchContacts = async () => {
-      if (currentUser && currentUser.isAvatarImageSet) {
+      if (currentUser) {
         try {
           const { data } = await axios.get(`${allUsersRoute}/${currentUser._id}`);
           setContacts(data.data);
         } catch (error) {
           console.error('Failed to fetch contacts', error);
         }
-      } else if (currentUser) {
-        navigate('/avatar');
       }
     };
     fetchContacts();
   }, [currentUser, navigate]);
 
-  if (isLoading) return <h2 style={{ color: '#2563eb', textAlign: 'center', fontWeight: 500 }}>Loading...</h2>;
-  if (!currentUser) return <h2 style={{ color: '#2563eb', textAlign: 'center', fontWeight: 500 }}>No user found. Please log in.</h2>;
+  if (isLoading) {
+    return (
+      <Container>
+        <div className="chat-container">
+          <div className="welcome-screen">
+            <h2>Loading...</h2>
+            <p>Please wait while we set up your chat</p>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <Container>
+        <div className="chat-container">
+          <div className="welcome-screen">
+            <h2>Authentication Required</h2>
+            <p>Please log in to access the chat</p>
+          </div>
+        </div>
+      </Container>
+    );
+  }
 
   return (
-    <Container>
-      <div className="chat-shell">
-        {/* Contacts List */}
-        <div className={`contacts-panel ${currentChat ? 'hide-on-chat' : ''}`}>
-          <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} />
+    <Container showChat={!!currentChat}>
+      <div className="chat-container">
+        {/* Contacts Section */}
+        <div className="contacts-section">
+          <Contacts 
+            contacts={contacts} 
+            currentUser={currentUser} 
+            changeChat={handleChatChange} 
+          />
         </div>
 
-        {/* Chat Container */}
-        <div className={`chat-box ${currentChat ? 'show-chat' : ''}`}>
+        {/* Chat Section */}
+        <div className="chat-section">
           {currentChat && (
-            <button className="back-btn" onClick={() => setCurrentChat(undefined)}>
-              &#8592;
+            <button className="back-button" onClick={handleBackToContacts}>
+              ←
             </button>
           )}
+          
           {currentChat ? (
-            <ChatContainer currentChat={currentChat} currentUser={currentUser} socket={socket} />
+            <ChatContainer 
+              currentChat={currentChat} 
+              currentUser={currentUser} 
+              socket={socket} 
+            />
           ) : (
-            <img src={robot} alt="robot" />
+            <div className="welcome-screen">
+              <img src={robot} alt="Welcome Robot" />
+              <h2>Welcome to KSVID Chat</h2>
+              <p>Select a contact to start chatting</p>
+            </div>
           )}
         </div>
       </div>

@@ -1,10 +1,9 @@
-//RADHAKRISHNALOVEPERMANLTUUUUUUU
-//RADHAKRISHNALOVEUUUMAPERMNANLTUUUUU
-//RADHAKRISHNALOVEUUUMAPERMANTLUUUUUU
-//LOVESHIVAPARVATHIMALOVEUUUUMAPERMALTUUU
-//VINYAKALAKSHMILOVEUUUMAPERMANENLTUUUUU
-//JAISITARAMA
-//RADHAKRISHNALOVEPERMANTLUUUUU
+/**
+ * Login Page Component
+ * KSVID Chat Application - User authentication login page
+ * Author: Kirety
+ */
+
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
@@ -40,12 +39,7 @@ function Login() {
         const { data } = await axios.post(loginRoute, user);
         if (data) {
           localStorage.setItem("chat-app-user", JSON.stringify(data.user_data));
-          if (data.user_data.isAvatarImageSet === true) {
-            toast.success("🎉 Welcome back! 🎉");
-            setTimeout(() => navigate("/chat"), 1200);
-          } else {
-            navigate("/avatar");
-          }
+          setTimeout(() => navigate("/chat"), 1200);
         }
       } catch (error) {
         toast.error("Check the credentials");
