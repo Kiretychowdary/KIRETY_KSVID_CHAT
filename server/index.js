@@ -3,7 +3,7 @@
  * A real-time chat application using Express.js, Socket.io and MongoDB
  * Author: Kirety
  */
-
+// NMKRSPVLIDATA
 const express = require('express');
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -13,13 +13,19 @@ require("dotenv").config();
 // Import route handlers
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messagesRoutes");
+const fileRoutes = require("./routes/fileRoutes");
 
 // Initialize Express app
 const app = express();
 
 // CORS configuration - Allow both production and development origins
 app.use(cors({
-  origin: ['https://nmkrspvlidata.netlify.app', 'http://localhost:5173'],
+  origin: [
+    'https://nmkrspvlidata.netlify.app', 
+    'http://localhost:5173', 
+    'http://localhost:5176',
+    /^http:\/\/localhost:\d+$/  // Allow any localhost port for development
+  ],
   credentials: true
 }));
 
@@ -29,6 +35,7 @@ app.use(express.json());
 // API Routes
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/files", fileRoutes);
 
 // Health check endpoint
 app.get('/', (req, res) => {
@@ -52,7 +59,7 @@ const server = app.listen(PORT, () => {
 // Socket.io configuration
 const io = socket(server, {
   cors: {
-    origin: ['https://nmkrspvlidata.netlify.app', 'http://localhost:5173'],
+    origin: ['https://nmkrspvlidata.netlify.app', 'http://localhost:5173','http://localhost:5174','http://localhost:5177','http://localhost:5176','http://localhost:5175'],
     credentials: true,
   },
 });
@@ -76,6 +83,81 @@ io.on("connection", (socket) => {
     if (recipientSocketId) {
       socket.to(recipientSocketId).emit("msg-receive", data.message);
       console.log(`📤 Message sent from ${data.from} to ${data.to}`);
+    }
+  });
+
+  // Handle voice call initiation
+  socket.on("voice-call", (data) => {
+    const recipientSocketId = onlineUsers.get(data.to);
+    if (recipientSocketId) {
+      socket.to(recipientSocketId).emit("incoming-voice-call", {
+        from: data.callerName || data.from,
+        fromUserId: data.from,
+        roomId: data.roomId,
+        callerId: socket.id,
+        signal: data.signal
+      });
+      console.log(`📞 Voice call initiated from ${data.callerName || data.from} to user ${data.to}`);
+    }
+  });
+
+  // Handle video call initiation
+  socket.on("video-call", (data) => {
+    const recipientSocketId = onlineUsers.get(data.to);
+    if (recipientSocketId) {
+      socket.to(recipientSocketId).emit("incoming-video-call", {
+        from: data.callerName || data.from,
+        fromUserId: data.from,
+        roomId: data.roomId,
+        callerId: socket.id,
+        signal: data.signal
+      });
+      console.log(`📹 Video call initiated from ${data.callerName || data.from} to user ${data.to}`);
+    }
+  });
+
+  // Handle call acceptance
+  socket.on("accept-call", (data) => {
+    const callerSocketId = onlineUsers.get(data.to);
+    if (callerSocketId) {
+      socket.to(callerSocketId).emit("call-accepted", {
+        signal: data.signal,
+        from: data.from
+      });
+      console.log(`✅ Call accepted by ${data.from}`);
+    }
+  });
+
+  // Handle call rejection
+  socket.on("reject-call", (data) => {
+    const callerSocketId = onlineUsers.get(data.to);
+    if (callerSocketId) {
+      socket.to(callerSocketId).emit("call-rejected", {
+        from: data.from
+      });
+      console.log(`❌ Call rejected by ${data.from}`);
+    }
+  });
+
+  // Handle call end
+  socket.on("end-call", (data) => {
+    const recipientSocketId = onlineUsers.get(data.to);
+    if (recipientSocketId) {
+      socket.to(recipientSocketId).emit("call-ended", {
+        from: data.from
+      });
+      console.log(`📴 Call ended by ${data.from}`);
+    }
+  });
+
+  // Handle WebRTC signaling
+  socket.on("signal", (data) => {
+    const recipientSocketId = onlineUsers.get(data.to);
+    if (recipientSocketId) {
+      socket.to(recipientSocketId).emit("signal", {
+        signal: data.signal,
+        from: data.from
+      });
     }
   });
 

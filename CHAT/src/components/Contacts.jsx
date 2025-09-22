@@ -189,23 +189,150 @@ const Container = styled.div`
 
   /* Responsive */
   @media (max-width: 900px) {
-    min-width: 180px;
-    max-width: 240px;
-    .brand h3 { font-size: 1.05rem; }
-    .contacts .contact .username h3,
-    .current-user .username h2 { max-width: 80px; font-size: 1rem; }
-    .contacts .contact .avatar img,
-    .current-user .avatar img { height: 2.1rem; width: 2.1rem; }
+    min-width: 220px;
+    max-width: 280px;
+    
+    .brand {
+      padding: 1.2rem;
+      
+      img {
+        height: 2rem;
+      }
+      
+      h3 { 
+        font-size: 1.1rem; 
+      }
+    }
+    
+    .contacts {
+      padding: 1rem 0.7rem;
+      
+      .contact {
+        padding: 0.6rem 0.8rem;
+        margin-bottom: 0.4rem;
+        
+        .username h3 {
+          max-width: 120px; 
+          font-size: 1rem;
+        }
+        
+        .avatar img {
+          height: 2.3rem; 
+          width: 2.3rem;
+        }
+      }
+    }
+    
+    .current-user {
+      padding: 0.9rem;
+      
+      .username h2 { 
+        max-width: 120px; 
+        font-size: 1.1rem; 
+      }
+      
+      .avatar img { 
+        height: 2.8rem; 
+        width: 2.8rem; 
+      }
+    }
   }
+  
   @media (max-width: 600px) {
-    min-width: 90px;
-    max-width: 100vw;
-    .brand h3 { font-size: 0.9rem; }
-    .contacts .contact .username h3,
-    .current-user .username h2 { max-width: 50px; font-size: 0.85rem; }
-    .contacts .contact .avatar img,
-    .current-user .avatar img { height: 1.3rem; width: 1.3rem; }
-    .contacts { padding: 0.5rem 0 0.5rem 0; }
-    .current-user { padding: 0.5rem 0 0.5rem 0; }
+    min-width: 100%;
+    max-width: 100%;
+    
+    .brand {
+      padding: 1rem;
+      
+      img {
+        height: 1.8rem;
+      }
+      
+      h3 { 
+        font-size: 1rem; 
+      }
+    }
+    
+    .contacts {
+      padding: 0.8rem 0.6rem;
+      
+      .contact {
+        width: 100%;
+        padding: 0.6rem 0.7rem;
+        margin-bottom: 0.3rem;
+        
+        .username h3 {
+          max-width: 180px; 
+          font-size: 0.95rem;
+        }
+        
+        .avatar img {
+          height: 2.2rem; 
+          width: 2.2rem;
+        }
+      }
+    }
+    
+    .current-user {
+      padding: 0.8rem;
+      
+      .username h2 { 
+        max-width: 180px; 
+        font-size: 1rem; 
+      }
+      
+      .avatar img { 
+        height: 2.5rem; 
+        width: 2.5rem; 
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .brand {
+      padding: 0.8rem;
+      
+      img {
+        height: 1.6rem;
+      }
+      
+      h3 { 
+        font-size: 0.9rem; 
+      }
+    }
+    
+    .contacts {
+      padding: 0.6rem 0.5rem;
+      
+      .contact {
+        padding: 0.5rem 0.6rem;
+        margin-bottom: 0.2rem;
+        
+        .username h3 {
+          max-width: 150px; 
+          font-size: 0.9rem;
+        }
+        
+        .avatar img {
+          height: 2rem; 
+          width: 2rem;
+        }
+      }
+    }
+    
+    .current-user {
+      padding: 0.7rem;
+      
+      .username h2 { 
+        max-width: 150px; 
+        font-size: 0.95rem; 
+      }
+      
+      .avatar img { 
+        height: 2.2rem; 
+        width: 2.2rem; 
+      }
+    }
   }
 `;

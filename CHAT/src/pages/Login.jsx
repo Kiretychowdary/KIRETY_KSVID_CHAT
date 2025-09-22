@@ -139,7 +139,7 @@ const StyledBG = styled.div`
 `;
 
 const GlassCard = styled.div`
-  background: #ffffff;
+  background: #e3a8a8ff;
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border: 1px solid ${mediumGray};

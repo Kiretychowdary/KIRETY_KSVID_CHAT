@@ -4,4 +4,23 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'globalThis',
+    'process.env': {}
+  },
+  optimizeDeps: {
+    include: ['simple-peer', 'buffer', 'process', 'events', 'util']
+  },
+  resolve: {
+    alias: {
+      buffer: 'buffer',
+      process: 'process/browser',
+      events: 'events',
+      util: 'util',
+    },
+  },
+  server: {
+    port: 5174,
+    host: true
+  }
 })

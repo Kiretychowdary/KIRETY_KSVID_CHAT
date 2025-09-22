@@ -34,7 +34,6 @@ const messageSchema = new mongoose.Schema({
   timestamps: true // Adds createdAt and updatedAt fields
 });
 
-// Index for better query performance
 messageSchema.index({ users: 1, createdAt: 1 });
 messageSchema.index({ sender: 1 });
 

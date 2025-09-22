@@ -1,3 +1,4 @@
+// NMKRSVLIDATA
 /**
  * API Routes Configuration
  * KSVID Chat Application
@@ -5,7 +6,8 @@
  */
 
 // Base server URL - change this based on your environment
-export const host = "https://kirety-ksvid-chat.onrender.com";
+// export const host = "https://kirety-ksvid-chat.onrender.com";
+export const host = "http://localhost:5000";
 // For local development, uncomment the line below:
 // export const host = "http://localhost:5000";
 
